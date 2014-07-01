@@ -1,0 +1,45 @@
+{
+  "name": "lavaca",
+  "version": "1.0.0",
+  "implName": "lavaca",
+  "contributors": [{
+    "name": "George Henderson",
+    "username": "georgehenderson",
+    "hash": "a7c81a624fd68bde3e032853c8af7dbe"
+  }],
+  "platforms": ["android", "ios"],
+  "devDependencies": {
+    "mout": "0.x",
+    "fs-extra": "~0.6.3",
+    "grunt": "0.4.1",
+    "express": "3.1.x",
+    "underscore": "1.4.x",
+    "preprocess": "1.0.x",
+    "connect": "2.4.4",
+    "deferreds": "1.x",
+    "grunt-contrib-clean": "0.4.1",
+    "grunt-contrib-copy": "0.4.1",
+    "grunt-contrib-less": "0.6.3",
+    "grunt-contrib-uglify": "0.2.2",
+    "grunt-contrib-jshint": "0.1.x",
+    "grunt-contrib-jasmine": "git://github.com/zship/grunt-contrib-jasmine.git",
+    "grunt-amd-dist": "0.4.x",
+    "grunt-amd-test": "0.4.x",
+    "grunt-amd-check": "0.5.x",
+    "xml2js": "0.2.x",
+    "promisemonkey": "0.1.x",
+    "grunt-contrib-yuidoc": "0.4.0",
+    "grunt-contrib-watch": "0.4.4",
+    "dustjs-linkedin": "2.0.2",
+    "dustjs-helpers": "1.1.1",
+    "grunt-shell": "0.3.x"
+  },
+  "repository": "git@github.com:mutualmobile/lavaca.git",
+  "keywords": [
+    "Lavaca",
+    "mvc",
+    "javascript"
+  ],
+  "author": "Mutual Mobile",
+  "license": "MIT"
+}
