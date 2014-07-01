@@ -2,7 +2,6 @@ define(function(require) {
 
   var Detection = require('lavaca/env/Detection'),
       PageView = require('lavaca/mvc/PageView'),
-      Promise = require('lavaca/util/Promise'),
       viewManager = require('lavaca/mvc/ViewManager'),
       History = require('lavaca/net/History');
   require('lavaca/fx/Animation'); //jquery plugins
@@ -95,7 +94,7 @@ define(function(require) {
               while (!!(exitingView = exitingViews[++i])) {
                 exitingView.shell.addClass(animationOut);
                 if (animationOut === '') {
-                  exitingView.exitPromise.resolve();
+                  //exitingView.exitPromise.resolve();
                   //exitingView.shell.detach();
                 }
               }
@@ -109,7 +108,7 @@ define(function(require) {
               this.shell.addClass('current');
               this.trigger('entercomplete');
             }
-            
+
           } else {
             this.shell.addClass('current');
             if (exitingViews.length > 0) {
@@ -117,14 +116,14 @@ define(function(require) {
               while (!!(exitingView = exitingViews[++i])) {
                 exitingView.shell.removeClass('current');
                 if (exitingView.exitPromise) {
-                  exitingView.exitPromise.resolve();
+                  //exitingView.exitPromise.resolve();
                   //exitingView.shell.detach();
                 }
               }
             }
             this.trigger('entercomplete');
           }
-        });
+        }.bind(this));
     },
     /**
      * @method exit
@@ -145,18 +144,16 @@ define(function(require) {
       }
 
       if (Detection.animationEnabled && animation) {
-        this.exitPromise = new Promise(this);
-
-        this.shell
-          .nextAnimationEnd(function() {
-            PageView.prototype.exit.apply(this, arguments).then(function() {
-              this.exitPromise.resolve();
-            });
-            this.shell.removeClass(animation + ' current');
-          }.bind(this))
-          .addClass(animation);
-
-        return this.exitPromise;
+        return new Promise(function(resolve) {
+          this.shell
+            .nextAnimationEnd(function() {
+              PageView.prototype.exit.apply(this, arguments).then(function() {
+                resolve();
+              });
+              this.shell.removeClass(animation + ' current');
+            }.bind(this))
+            .addClass(animation);
+        }.bind(this));
       } else {
         this.shell.removeClass('current');
         return PageView.prototype.exit.apply(this, arguments);
