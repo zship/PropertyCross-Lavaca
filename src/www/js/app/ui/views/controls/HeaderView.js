@@ -3,8 +3,8 @@ define(function(require) {
   var View = require('lavaca/mvc/View'),
       $ = require('$'),
       stateModel = require('app/models/StateModel'),
-      router = require('lavaca/mvc/Router');
-  require('rdust!templates/controls/header-view');
+      router = require('lavaca/mvc/Router'),
+      template = require('rdust!templates/controls/header-view');
 
   /**
    * @class app.ui.views.globalUI.HeaderView
@@ -22,12 +22,13 @@ define(function(require) {
         }
       });
     }, {
-    /**
-     * @field {String} template
-     * @default 'templates/header'
-     * The name of the template used by the view
-     */
-    template: 'templates/controls/header-view',
+    generateHtml: function(model) {
+      return new Promise(function(resolve) {
+        template.render(model, function(err, html) {
+          resolve(html);
+        });
+      });
+    },
     /**
      * @field {String} className
      * @default 'header'
@@ -36,7 +37,7 @@ define(function(require) {
     className: 'header',
 
     onModelReset: function() {
-      this.redraw();
+      this.render();
     },
     onTapToggleFavorite: function() {
       if (this.model.get('isFavorited')) {
@@ -46,9 +47,9 @@ define(function(require) {
         this.model.addFavorite(layer.model);
       }
       setTimeout(function() {
-        this.redraw('.toggle-favorite');
+        this.render('.toggle-favorite');
       }.bind(this), 500);
-      
+
     }
   });
 

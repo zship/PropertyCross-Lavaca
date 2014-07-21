@@ -45,6 +45,7 @@ define(function(require) {
      *   that contains the template's rendered HTML output.
      */
     onRenderSuccess: function() {
+      this.el.addClass('page-view');
       PageView.prototype.onRenderSuccess.apply(this, arguments);
     },
     /**
@@ -84,7 +85,7 @@ define(function(require) {
 
           var triggerEnterComplete = function() {
             this.trigger('entercomplete');
-            this.shell.removeClass(animationIn);
+            this.el.removeClass(animationIn);
           };
 
           if (Detection.animationEnabled && animationIn !== '') {
@@ -92,32 +93,32 @@ define(function(require) {
             if (exitingViews.length) {
               i = -1;
               while (!!(exitingView = exitingViews[++i])) {
-                exitingView.shell.addClass(animationOut);
+                exitingView.el.addClass(animationOut);
                 if (animationOut === '') {
                   //exitingView.exitPromise.resolve();
-                  //exitingView.shell.detach();
+                  //exitingView.el.detach();
                 }
               }
             }
 
             if ((this.layer > 0 || exitingViews.length > 0)) {
-              this.shell
+              this.el
                   .nextAnimationEnd(triggerEnterComplete.bind(this))
                   .addClass(animationIn + ' current');
             } else {
-              this.shell.addClass('current');
+              this.el.addClass('current');
               this.trigger('entercomplete');
             }
 
           } else {
-            this.shell.addClass('current');
+            this.el.addClass('current');
             if (exitingViews.length > 0) {
               i = -1;
               while (!!(exitingView = exitingViews[++i])) {
-                exitingView.shell.removeClass('current');
+                exitingView.el.removeClass('current');
                 if (exitingView.exitPromise) {
                   //exitingView.exitPromise.resolve();
-                  //exitingView.shell.detach();
+                  //exitingView.el.detach();
                 }
               }
             }
@@ -138,24 +139,24 @@ define(function(require) {
     exit: function(container, enteringViews) {
       var animation = History.isRoutingBack ? this.pageTransition['outReverse'] : (enteringViews.length ? enteringViews[0].pageTransition['out'] : '');
 
-      if (History.isRoutingBack && this.shell.data('layer-index') > 0) {
+      if (History.isRoutingBack && this.el.data('layer-index') > 0) {
         this.pageTransition = History.animationBreadcrumb.pop();
         animation = this.pageTransition['outReverse'];
       }
 
       if (Detection.animationEnabled && animation) {
         return new Promise(function(resolve) {
-          this.shell
+          this.el
             .nextAnimationEnd(function() {
               PageView.prototype.exit.apply(this, arguments).then(function() {
                 resolve();
               });
-              this.shell.removeClass(animation + ' current');
+              this.el.removeClass(animation + ' current');
             }.bind(this))
             .addClass(animation);
         }.bind(this));
       } else {
-        this.shell.removeClass('current');
+        this.el.removeClass('current');
         return PageView.prototype.exit.apply(this, arguments);
       }
     }

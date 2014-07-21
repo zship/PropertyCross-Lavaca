@@ -1,8 +1,7 @@
 define(function(require) {
 
   var BaseView = require('./BaseView'),
-      $ = require('$');
-  require('rdust!templates/listing-single');
+      template = require('rdust!templates/listing-single');
 
   /**
    * @class app.ui.ListingView
@@ -12,12 +11,13 @@ define(function(require) {
   var ListingView = BaseView.extend(function() {
     BaseView.apply(this, arguments);
   }, {
-    /**
-     * @field {String} template
-     * @default 'templates/search'
-     * The name of the template used by the view
-     */
-    template: 'templates/listing-single',
+    generateHtml: function(model) {
+      return new Promise(function(resolve) {
+        template.render(model, function(err, html) {
+          resolve(html);
+        });
+      });
+    },
     /**
      * @field {String} className
      * @default 'search'

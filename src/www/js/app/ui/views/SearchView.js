@@ -3,8 +3,8 @@ define(function(require) {
   var BaseView = require('./BaseView'),
       $ = require('$'),
       router = require('lavaca/mvc/Router'),
-      Translation = require('lavaca/util/Translation');
-  require('rdust!templates/search');
+      Translation = require('lavaca/util/Translation'),
+      template = require('rdust!templates/search');
 
   /**
    * @class app.ui.SearchView
@@ -24,12 +24,13 @@ define(function(require) {
       }
     });
   }, {
-    /**
-     * @field {String} template
-     * @default 'templates/search'
-     * The name of the template used by the view
-     */
-    template: 'templates/search',
+    generateHtml: function(model) {
+      return new Promise(function(resolve) {
+        template.render(model, function(err, html) {
+          resolve(html);
+        });
+      });
+    },
     /**
      * @field {String} className
      * @default 'search'
@@ -46,7 +47,7 @@ define(function(require) {
     onChangeSearch: function() {
       var search = this.model.get('search'),
           listings = search ? search.listings : [];
-      this.redraw('.search-lists');
+      this.render('.search-lists');
       if (listings && listings.length) {
         router.exec('/listings/' + search.locations[0].place_name, null, {
           listings: listings,
@@ -71,11 +72,11 @@ define(function(require) {
         }.bind(this),
         function() {
           this.model.set('error', Translation.get('location_not_enabled'));
-          this.redraw('.search-lists');
-        }.bind(this));   
+          this.render('.search-lists');
+        }.bind(this));
       } else {
         Translation.get('location_not_enabled');
-        this.redraw('.search-lists');
+        this.render('.search-lists');
       }
     }
 

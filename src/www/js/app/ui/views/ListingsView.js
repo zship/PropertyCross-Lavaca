@@ -4,11 +4,10 @@ define(function(require) {
       $ = require('$'),
       router = require('lavaca/mvc/Router'),
       stateModel = require('app/models/StateModel'),
-      Template = require('lavaca/ui/Template'),
       History = require('lavaca/net/History'),
-      debounce = require('mout/function/debounce');
-  require('rdust!templates/listings');
-  require('rdust!templates/listings-list-item');
+      debounce = require('mout/function/debounce'),
+      template = require('rdust!templates/listings'),
+      itemTemplate = require('rdust!templates/listings-list-item');
 
   /**
    * @class app.ui.ListingsView
@@ -25,12 +24,13 @@ define(function(require) {
       }
     });
   }, {
-    /**
-     * @field {String} template
-     * @default 'templates/search'
-     * The name of the template used by the view
-     */
-    template: 'templates/listings',
+    generateHtml: function(model) {
+      return new Promise(function(resolve) {
+        template.render(model, function(err, html) {
+          resolve(html);
+        });
+      });
+    },
     /**
      * @field {String} className
      * @default 'search'
@@ -46,16 +46,14 @@ define(function(require) {
       stateModel.set('pageTitle', this.model.get('pageTitle'));
       stateModel.trigger('reset');
       this.renderCells();
-      this.redraw('.load-more');
+      this.render('.load-more');
     },
     renderCells: function() {
-      var template = Template.get('templates/listings-list-item'),
-          modelsClone = this.model.toObject().items.slice();
-      template.render({items: modelsClone.splice(this.model.get('lastFetchedIndex'), 20)})
-        .success(function(html) {
-          this.el.find('ul').append(html);
-          History.replace(this.model.toObject(), this.model.get('pageTitle'), location.hash.split('#')[1]);
-        }.bind(this));
+      var modelsClone = this.model.toObject().items.slice();
+      itemTemplate.render({items: modelsClone.splice(this.model.get('lastFetchedIndex'), 20)}, function(err, html) {
+        this.el.find('ul').append(html);
+        History.replace(this.model.toObject(), this.model.get('pageTitle'), location.hash.split('#')[1]);
+      }.bind(this));
     },
     loadMore: function() {
       this.el.find('.loading-text').html('<div>Loading ...</div>');
