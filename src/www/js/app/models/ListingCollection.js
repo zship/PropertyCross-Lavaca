@@ -1,8 +1,7 @@
 define(function(require) {
   var Collection = require('lavaca/mvc/Collection'),
-      merge = require('mout/object/merge'),
-      Translation = require('lavaca/util/Translation'),
-      ListingModel = require('app/models/ListingModel');
+      ListingModel = require('app/models/ListingModel'),
+      ListingService = require('app/service/ListingService');
 
   var ListingCollection = Collection.extend(function() {
     Collection.apply(this, arguments);
@@ -17,11 +16,9 @@ define(function(require) {
     },
     TModel: ListingModel,
     fetch: function() {
-      var params = merge(this.defaultQueryParams, {
-            place_name: this.get('placeName'),
-            page: parseInt(this.get('page'), 10) + 1
-          });
-      Collection.prototype.fetch.call(this, 'api', {dataType: 'jsonp', data: params, timeout: 5000});
+      var placeName = this.get('placeName');
+      var page = parseInt(this.get('page'), 10) + 1;
+      ListingService.list(placeName, page).then(this.onFetchSuccess.bind(this));
     },
     onFetchSuccess: function(response) {
       response = this.parse(response.response);

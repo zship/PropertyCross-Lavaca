@@ -3,7 +3,7 @@ define(function(require) {
   var Model = require('lavaca/mvc/Model'),
       state = require('./StateModel'),
       merge = require('mout/object/merge'),
-      Translation = require('lavaca/util/Translation');
+      ListingService = require('app/service/ListingService');
 
   var SearchModel = Model.extend(function() {
     Model.apply(this, arguments);
@@ -19,18 +19,10 @@ define(function(require) {
       pretty: 1
     },
     searchText: function(text, page) {
-      var params = merge(this.defaultQueryParams, {
-            place_name: text,
-            page: page || 1
-          });
-      this.fetch('api', {dataType: 'jsonp', data: params});
+      return ListingService.list(text, page).then(this.onFetchSuccess.bind(this));
     },
     searchCoords: function(lat, lng, page) {
-      var params = merge(this.defaultQueryParams, {
-            centre_point: lat + ',' + lng,
-            page: page || 1
-          });
-      this.fetch('api', {dataType: 'jsonp', data: params});
+      return ListingService.listByCoords(lat, lng, page).then(this.onFetchSuccess.bind(this));
     },
     onFetchSuccess: function(response) {
       response = this.parse(response.response);
