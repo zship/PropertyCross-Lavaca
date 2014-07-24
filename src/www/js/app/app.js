@@ -3,11 +3,11 @@ define(function(require) {
   var SearchController = require('./net/SearchController');
   var Connectivity = require('lavaca/net/Connectivity');
   var Application = require('lavaca/mvc/Application');
-  var Translation = require('lavaca/util/Translation');
   var localStore = require('./cache/localStore');
   var stateModel = require('app/models/StateModel');
   var headerView = require('app/ui/views/controls/HeaderView');
   var Detection = require('lavaca/env/Detection');
+  var messages = require('i18n!app/nls/messages');
   require('lavaca/ui/DustTemplate');
   require('hammer');
 
@@ -31,8 +31,6 @@ define(function(require) {
       '/favorites/{guid}': [SearchController, 'listing']
     });
     stateModel.set('lang', localStore.get('lang') || 'en_US');
-    //initialize translations
-    Translation.init(stateModel.get('lang'));
     Detection.addCustomDetection(navigator.userAgent.search(/os 7_/i) > 0, 'iOS7', 'html');
     //render header view
     headerView.render();
@@ -40,8 +38,7 @@ define(function(require) {
 
   // Setup offline AJAX handler
   Connectivity.registerOfflineAjaxHandler(function() {
-    var hasLoaded = Translation.hasLoaded;
-    alert(hasLoaded ? Translation.get('error_offline') : 'No internet connection available. Please check your settings and connection and try again.');
+    alert(messages.error_offline);
   });
 
   return app;

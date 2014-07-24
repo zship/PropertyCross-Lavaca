@@ -3,7 +3,7 @@ define(function(require) {
   var BaseView = require('./BaseView'),
       $ = require('$'),
       router = require('lavaca/mvc/Router'),
-      Translation = require('lavaca/util/Translation'),
+      messages = require('i18n!app/nls/messages'),
       template = require('rdust!templates/search');
 
   /**
@@ -71,11 +71,10 @@ define(function(require) {
           this.model.searchCoords(location.coords.latitude, location.coords.longitude);
         }.bind(this),
         function() {
-          this.model.set('error', Translation.get('location_not_enabled'));
+          this.model.set('error', messages.location_not_enabled);
           this.render('.search-lists');
         }.bind(this));
       } else {
-        Translation.get('location_not_enabled');
         this.render('.search-lists');
       }
     }

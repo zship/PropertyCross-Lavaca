@@ -1,5 +1,6 @@
 define(function(require) {
   var Collection = require('lavaca/mvc/Collection'),
+      messages = require('i18n!app/nls/messages'),
       ListingModel = require('app/models/ListingModel'),
       ListingService = require('app/service/ListingService');
 
@@ -36,11 +37,11 @@ define(function(require) {
         this.trigger('fetchSuccess', {response: response});
       } else {
         if (response.application_response_text === 'unknown location') {
-          errorMessage = Translation.get('not_matched');
+          errorMessage = messages.not_matched;
         } else if(responseCode === '210') {
-          errorMessage = Translation.get('location_not_found');
+          errorMessage = messages.location_not_found;
         } else {
-          errorMessage = Translation.get('error_offline');
+          errorMessage = messages.error_offline;
         }
         response = {
           error: errorMessage

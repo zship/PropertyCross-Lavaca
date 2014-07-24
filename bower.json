@@ -14,6 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "lavaca": "mutualmobile/lavaca#v3"
+    "lavaca": "mutualmobile/lavaca#v3",
+    "i18n": "requirejs/i18n#2.0.4"
   }
 }

@@ -10,7 +10,8 @@ require.config({
     'dust-helpers': '../components/dustjs-linkedin-helpers/dist/dust-helpers-1.1.1',
     'rdust': '../components/require-dust/require-dust',
     'iScroll': '../components/iscroll/dist/iscroll-lite-min',
-    'lavaca': '../components/lavaca/src'
+    'lavaca': '../components/lavaca/src',
+    'i18n': '../components/i18n/i18n'
   },
   shim: {
     $: {
