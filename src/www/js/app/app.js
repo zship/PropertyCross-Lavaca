@@ -6,7 +6,6 @@ define(function(require) {
   var localStore = require('./cache/localStore');
   var stateModel = require('app/models/StateModel');
   var headerView = require('app/ui/views/controls/HeaderView');
-  var Detection = require('lavaca/env/Detection');
   var messages = require('i18n!app/nls/messages');
   require('lavaca/ui/DustTemplate');
   require('hammer');
@@ -31,8 +30,6 @@ define(function(require) {
       '/favorites/{guid}': [SearchController, 'listing']
     });
     stateModel.set('lang', localStore.get('lang') || 'en_US');
-    Detection.addCustomDetection(navigator.userAgent.search(/os 7_/i) > 0, 'iOS7', 'html');
-    //render header view
     headerView.render();
   });
 

@@ -1,7 +1,6 @@
 define(function(require) {
 
   var $ = require('$'),
-      Detection = require('lavaca/env/Detection'),
       BaseView = require('./BaseView');
 
   /**
@@ -40,9 +39,7 @@ define(function(require) {
      */
     onRenderSuccess: function(e) {
       BaseView.prototype.onRenderSuccess.apply(this, arguments);
-      if (Detection.animationEnabled) {
-        this.overlay.addClass(this.overlayAnimation);
-      }
+      this.overlay.addClass(this.overlayAnimation);
     },
     /**
      * @method render
@@ -86,11 +83,9 @@ define(function(require) {
      * @return {Lavaca.util.Promise} A promise
      */
     enter: function() {
-      if (Detection.animationEnabled) {
-        this.overlay
-          .removeClass('out')
-          .addClass('in');
-      }
+      this.overlay
+        .removeClass('out')
+        .addClass('in');
       return BaseView.prototype.enter.apply(this, arguments);
     },
     /**
@@ -102,14 +97,12 @@ define(function(require) {
      * @return {Lavaca.util.Promise} A promise
      */
     exit: function() {
-      if (Detection.animationEnabled) {
-        this.overlay
-          .nextAnimationEnd(function(e) {
-            $(e.currentTarget).remove();
-          })
-          .removeClass('in')
-          .addClass('out');
-      }
+      this.overlay
+        .nextAnimationEnd(function(e) {
+          $(e.currentTarget).remove();
+        })
+        .removeClass('in')
+        .addClass('out');
       return BaseView.prototype.exit.apply(this, arguments);
     }
   });
