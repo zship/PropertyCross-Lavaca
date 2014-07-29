@@ -3,8 +3,6 @@ define(function(require) {
   var SearchController = require('./net/SearchController');
   var Connectivity = require('lavaca/net/Connectivity');
   var Application = require('lavaca/mvc/Application');
-  var localStore = require('./cache/localStore');
-  var stateModel = require('app/models/StateModel');
   var headerView = require('app/ui/views/controls/HeaderView');
   var messages = require('i18n!app/nls/messages');
   require('lavaca/ui/DustTemplate');
@@ -29,7 +27,6 @@ define(function(require) {
       '/favorites': [SearchController, 'favorites'],
       '/favorites/{guid}': [SearchController, 'listing']
     });
-    stateModel.set('lang', localStore.get('lang') || 'en_US');
     headerView.render();
   });
 
