@@ -14,7 +14,7 @@ define(function(require) {
   var FavoritesView = BaseView.extend(function() {
     BaseView.apply(this, arguments);
     this.mapEvent({
-      'li': {tap: this.onTapListing.bind(this)}
+      'li': {tap: this.onTapListing}
     });
   }, {
     /**

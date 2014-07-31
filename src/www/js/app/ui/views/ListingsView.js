@@ -17,10 +17,10 @@ define(function(require) {
   var ListingsView = BaseView.extend(function() {
     BaseView.apply(this, arguments);
     this.mapEvent({
-      'li': {tap: this.onTapListing.bind(this)},
-      '.has-more': {tap: this.onTapLoadMore.bind(this)},
+      'li': {tap: this.onTapListing},
+      '.has-more': {tap: this.onTapLoadMore},
       model: {
-        fetchSuccess: this.onModelReset.bind(this)
+        fetchSuccess: this.onModelReset
       }
     });
   }, {

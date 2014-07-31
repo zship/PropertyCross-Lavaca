@@ -14,13 +14,13 @@ define(function(require) {
   var SearchView = BaseView.extend(function() {
     BaseView.apply(this, arguments);
     this.mapEvent({
-      'form': {submit: this.onFormSubmit.bind(this)},
-      'input': {keypress: this.onInputKeypress.bind(this)},
-      '.location.button': {tap: this.onTapMyLocation.bind(this)},
-      '.list-locations li, .recent-searches li': {tap: this.onTapLocationListItem.bind(this)},
+      'form': {submit: this.onFormSubmit},
+      'input': {keypress: this.onInputKeypress},
+      '.location.button': {tap: this.onTapMyLocation},
+      '.list-locations li, .recent-searches li': {tap: this.onTapLocationListItem},
       model: {
-        fetchSuccess: this.onChangeSearch.bind(this),
-        fetchError: this.onChangeSearch.bind(this)
+        fetchSuccess: this.onChangeSearch,
+        fetchError: this.onChangeSearch
       }
     });
   }, {
