@@ -1,6 +1,6 @@
 define(function(require) {
 
-  var PageView = require('lavaca/mvc/PageView'),
+  var View = require('lavaca/mvc/View'),
       viewManager = require('lavaca/mvc/ViewManager'),
       History = require('lavaca/net/History');
   require('lavaca/fx/Animation'); //jquery plugins
@@ -12,8 +12,8 @@ define(function(require) {
    * A View from which all other application Views can extend.
    * Adds support for animating between views.
    */
-  var BaseView = PageView.extend(function() {
-    PageView.apply(this, arguments);
+  var BaseView = View.extend(function() {
+    View.apply(this, arguments);
     this.mapEvent('.cancel', 'tap', this.onTapCancel);
   }, {
 
@@ -45,7 +45,7 @@ define(function(require) {
      */
     onRenderSuccess: function() {
       this.el.addClass('page-view');
-      PageView.prototype.onRenderSuccess.apply(this, arguments);
+      View.prototype.onRenderSuccess.apply(this, arguments);
     },
     /**
      * @method onTapCancel
@@ -68,7 +68,7 @@ define(function(require) {
      * @return {Lavaca.util.Promise} A promise
      */
     enter: function(container, exitingViews) {
-      return PageView.prototype.enter.apply(this, arguments)
+      return View.prototype.enter.apply(this, arguments)
         .then(function() {
           if (History.isRoutingBack) {
             if (History.animationBreadcrumb.length > 0) {
@@ -147,7 +147,7 @@ define(function(require) {
         return new Promise(function(resolve) {
           this.el
             .nextAnimationEnd(function() {
-              PageView.prototype.exit.apply(this, arguments).then(function() {
+              View.prototype.exit.apply(this, arguments).then(function() {
                 resolve();
               });
               this.el.removeClass(animation + ' current');
@@ -156,7 +156,7 @@ define(function(require) {
         }.bind(this));
       } else {
         this.el.removeClass('current');
-        return PageView.prototype.exit.apply(this, arguments);
+        return View.prototype.exit.apply(this, arguments);
       }
     }
   });
