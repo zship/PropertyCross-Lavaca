@@ -12,7 +12,7 @@ An implementation of the PropertyCross app using Lavaca.
 * A JavaScript MVC framework -> [learn more](3.0.-MVC-in-Lavaca)
 * Integration with [Cordova / PhoneGap](http://phonegap.com) out-of-the-box
 * A JavaScript documentation generation system ([YUIDoc](http://yui.github.io/yuidoc/))
-* A unit testing framework ([Jasmine](http://pivotal.github.io/jasmine/))
+* A unit testing framework ([Jasmine](https://jasmine.github.io/))
 * A templating framework ([LinkedIn fork of Dust](http://linkedin.github.com/dustjs/))
 * A translation framework
 * Dynamic CSS with ([LESS](http://lesscss.org/))
